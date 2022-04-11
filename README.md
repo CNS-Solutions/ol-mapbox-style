@@ -106,7 +106,7 @@ and open a browser on the host and port indicated in the console output (usually
 
 ### Namespaces
 
-- [types](#modulestypesmd)
+- [&#x27;types&#x27;](#modulestypes_md)
 
 ### Functions
 
@@ -168,7 +168,7 @@ map instance, which holds the Mapbox Style object.
 | :------ | :------ | :------ |
 | `map` | `string` \| `HTMLElement` \| `Map` | Either an existing OpenLayers Map instance, or a HTML element, or the id of a HTML element that will be the target of a new OpenLayers Map. |
 | `style` | `any` | JSON style object or style url pointing to a Mapbox Style object. When using Mapbox APIs, the url is the `styleUrl` shown in Mapbox Studio's "share" panel. In addition, the `accessToken` option (see below) must be set. When passed as JSON style object, all OpenLayers layers created by `apply()` will be immediately available, but they may not have a source yet (i.e. when they are defined by a TileJSON url in the Mapbox Style document). When passed as style url, layers will be added to the map when the Mapbox Style document is loaded and parsed. |
-| `options` | [`Options`](#interfacestypesoptionsmd) | Options. |
+| `options` | [`Options`](#interfacestypes_optionsmd) | Options. |
 
 #### Returns
 
@@ -203,7 +203,7 @@ applyBackground(map, 'https://api.maptiler.com/maps/basic/style.json?key=YOUR_OP
 | :------ | :------ | :------ |
 | `mapOrLayer` | `VectorTileLayer` \| `Map` | OpenLayers Map or VectorTile layer. |
 | `glStyle` | `any` | Mapbox Style object or url. |
-| `options` | [`Options`](#interfacestypesoptionsmd) | Options. |
+| `options` | [`Options`](#interfacestypes_optionsmd) | Options. |
 
 #### Returns
 
@@ -250,7 +250,7 @@ Two additional properties will be set on the provided layer:
 | `layer` | `VectorLayer`<`any`\> \| `VectorTileLayer` | `undefined` | OpenLayers layer. When the layer has a source configured, it will be modified to use the configuration from the glStyle's `source`. Options specified on the layer's source will override those from the glStyle's `source`, except for `url`, `tileUrlFunction` and `tileGrid` (exception: when the source projection is not `EPSG:3857`). |
 | `glStyle` | `any` | `undefined` | Mapbox Style object. |
 | `sourceOrLayers` | `string` \| `string`[] | `''` | `source` key or an array of layer `id`s from the Mapbox Style object. When a `source` key is provided, all layers for the specified source will be included in the style function. When layer `id`s are provided, they must be from layers that use the same source. When not provided or a falsey value, all layers using the first source specified in the glStyle will be rendered. |
-| `optionsOrPath` | `string` \| [`Options`](#interfacestypesoptionsmd) | `{}` | Options. Alternatively the path of the style file (only required when a relative path is used for the `"sprite"` property of the style). |
+| `optionsOrPath` | `string` \| [`Options`](#interfacestypes_optionsmd) | `{}` | Options. Alternatively the path of the style file (only required when a relative path is used for the `"sprite"` property of the style). |
 | `resolutions` | `number`[] | `undefined` | Resolutions for mapping resolution to zoom level. Only needed when working with non-standard tile grids or projections. |
 
 #### Returns
@@ -275,7 +275,7 @@ features differently.
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `mapOrLayer` | `VectorLayer`<`any`\> \| `VectorTileLayer` \| `Map` | Map or layer to set the feature state on. |
-| `feature` | [`FeatureIdentifier`](#interfacestypesfeatureidentifiermd) | Feature identifier. |
+| `feature` | [`FeatureIdentifier`](#interfacestypes_featureidentifiermd) | Feature identifier. |
 
 #### Returns
 
@@ -408,7 +408,7 @@ The feature state will be stored on the OpenLayers layer matching the feature id
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `mapOrLayer` | `VectorLayer`<`any`\> \| `VectorTileLayer` \| `Map` | OpenLayers Map or layer to set the feature state on. |
-| `feature` | [`FeatureIdentifier`](#interfacestypesfeatureidentifiermd) | Feature identifier. |
+| `feature` | [`FeatureIdentifier`](#interfacestypes_featureidentifiermd) | Feature identifier. |
 | `state` | `any` | Feature state. Set to `null` to remove the feature state. |
 
 #### Returns
@@ -419,7 +419,7 @@ ___
 
 ### stylefunction
 
-▸ **stylefunction**(`olLayer`, `glStyle`, `sourceOrLayers`, `resolutions?`, `spriteData?`, `spriteImageUrl?`, `getFonts?`): `StyleFunction`
+▸ **stylefunction**(`olLayer`, `glStyle`, `sourceOrLayers`, `resolutions?`, `spriteData?`, `spriteImageUrl?`, `getFonts?`, `getImage?`): `StyleFunction`
 
 Creates a style function from the `glStyle` object for all layers that use
 the specified `source`, which needs to be a `"type": "vector"` or
@@ -468,6 +468,7 @@ sure that sprite image loading works:
 | `spriteData` | `any` | `undefined` | Sprite data from the url specified in the Mapbox Style object's `sprite` property. Only required if a `sprite` property is specified in the Mapbox Style object. |
 | `spriteImageUrl` | `string` | `undefined` | Sprite image url for the sprite specified in the Mapbox Style object's `sprite` property. Only required if a `sprite` property is specified in the Mapbox Style object. |
 | `getFonts` | (`arg0`: `string`[]) => `string`[] | `undefined` | Function that receives a font stack as arguments, and returns a (modified) font stack that is available. Font names are the names used in the Mapbox Style object. If not provided, the font stack will be used as-is. This function can also be used for loading web fonts. |
+| `getImage` | (`arg0`: `VectorLayer`<`any`\> \| `VectorTileLayer`, `arg1`: `string`) => `HTMLCanvasElement` \| `HTMLImageElement` | `undefined` | - |
 
 #### Returns
 
@@ -477,11 +478,11 @@ Style function for use in
 `ol.layer.Vector` or `ol.layer.VectorTile`.
 
 
-<a name="interfacestypesfeatureidentifiermd"></a>
+<a name="interfacestypes_featureidentifiermd"></a>
 
 # Interface: FeatureIdentifier<\>
 
-[types](#modulestypesmd).FeatureIdentifier
+['types'](#modulestypes_md).FeatureIdentifier
 
 ## Table of contents
 
@@ -507,11 +508,11 @@ ___
 The source id.
 
 
-<a name="interfacestypesoptionsmd"></a>
+<a name="interfacestypes_optionsmd"></a>
 
 # Interface: Options<\>
 
-[types](#modulestypesmd).Options
+['types'](#modulestypes_md).Options
 
 ## Table of contents
 
@@ -585,16 +586,16 @@ the returned request will be respected.
 `void` \| `Request`
 
 
-<a name="modulestypesmd"></a>
+<a name="modulestypes_md"></a>
 
-# Namespace: types
+# Namespace: 'types'
 
 ## Table of contents
 
 ### Interfaces
 
-- [FeatureIdentifier](#interfacestypesfeatureidentifiermd)
-- [Options](#interfacestypesoptionsmd)
+- [FeatureIdentifier](#interfacestypes_featureidentifiermd)
+- [Options](#interfacestypes_optionsmd)
 
 ### Type Aliases
 

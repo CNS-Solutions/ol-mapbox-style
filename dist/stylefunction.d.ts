@@ -86,10 +86,12 @@ export function recordStyleLayer(record?: boolean): void;
  * is available. Font names are the names used in the Mapbox Style object. If
  * not provided, the font stack will be used as-is. This function can also be
  * used for loading web fonts.
+ * @param {function(VectorLayer|VectorTileLayer,string):HTMLImageElement|HTMLCanvasElement|undefined} [getImage=undefined]
+ * Function that returns an image for an image name argurment.
  * @return {StyleFunction} Style function for use in
  * `ol.layer.Vector` or `ol.layer.VectorTile`.
  */
-export function stylefunction(olLayer: import("ol/layer/Vector").default<any> | VectorTileLayer, glStyle: string | any, sourceOrLayers: string | Array<string>, resolutions?: Array<number>, spriteData?: any, spriteImageUrl?: string, getFonts?: (arg0: Array<string>) => Array<string>): StyleFunction;
+export function stylefunction(olLayer: import("ol/layer/Vector").default<any> | VectorTileLayer, glStyle: string | any, sourceOrLayers: string | Array<string>, resolutions?: Array<number>, spriteData?: any, spriteImageUrl?: string, getFonts?: (arg0: Array<string>) => Array<string>, getImage?: ((arg0: import("ol/layer/Vector").default<any> | VectorTileLayer, arg1: string) => HTMLImageElement | HTMLCanvasElement | undefined) | undefined): StyleFunction;
 export type VectorLayer = import("ol/layer/Vector").default<any>;
 export type VectorTileLayer = import("ol/layer/VectorTile").default;
 export type StyleFunction = import("ol/style/Style").StyleFunction;
