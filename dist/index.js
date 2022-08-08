@@ -6723,14 +6723,17 @@ function recordStyleLayer(record) {
  * is available. Font names are the names used in the Mapbox Style object. If
  * not provided, the font stack will be used as-is. This function can also be
  * used for loading web fonts.
+ * @param {function(VectorLayer|VectorTileLayer,string):HTMLImageElement|HTMLCanvasElement|undefined} [getImage=undefined]
+ * Function that returns an image for an image name argurment.
  * @return {StyleFunction} Style function for use in
  * `ol.layer.Vector` or `ol.layer.VectorTile`.
  */
-function stylefunction(olLayer, glStyle, sourceOrLayers, resolutions, spriteData, spriteImageUrl, getFonts) {
+function stylefunction(olLayer, glStyle, sourceOrLayers, resolutions, spriteData, spriteImageUrl, getFonts, getImage) {
     if ( resolutions === void 0 ) resolutions = defaultResolutions;
     if ( spriteData === void 0 ) spriteData = undefined;
     if ( spriteImageUrl === void 0 ) spriteImageUrl = undefined;
     if ( getFonts === void 0 ) getFonts = undefined;
+    if ( getImage === void 0 ) getImage = undefined;
 
     if (typeof glStyle == 'string') {
         glStyle = JSON.parse(glStyle);
@@ -6936,7 +6939,8 @@ function stylefunction(olLayer, glStyle, sourceOrLayers, resolutions, spriteData
                     if (iconImage) {
                         icon$1 = typeof iconImage === 'string' ? fromTemplate(iconImage, properties) : iconImage.toString();
                         var styleGeom = undefined;
-                        if (spriteImage && spriteData && spriteData[icon$1]) {
+                        var imageElement = getImage ? getImage(olLayer, icon$1) : undefined;
+                        if (spriteImage && spriteData && spriteData[icon$1] || imageElement) {
                             var iconRotationAlignment = getValue(layer, 'layout', 'icon-rotation-alignment', zoom, f, functionCache, featureState);
                             if (type == 2) {
                                 var geom = feature.getGeometry();
@@ -6989,30 +6993,44 @@ function stylefunction(olLayer, glStyle, sourceOrLayers, resolutions, spriteData
                                     }
                                     iconImg = iconImageCache[icon_cache_key$1];
                                     if (!iconImg) {
-                                        var spriteImageData$1 = spriteData[icon$1];
                                         var declutterMode = getIconDeclutterMode(layer, zoom, f, functionCache);
-                                        iconImg = new Icon({
-                                            color: iconColor ? [
-                                                iconColor.r * 255,
-                                                iconColor.g * 255,
-                                                iconColor.b * 255,
-                                                iconColor.a
-                                            ] : undefined,
-                                            img: spriteImage,
-                                            imgSize: spriteImgSize,
-                                            size: [
-                                                spriteImageData$1.width,
-                                                spriteImageData$1.height
-                                            ],
-                                            offset: [
-                                                spriteImageData$1.x,
-                                                spriteImageData$1.y
-                                            ],
-                                            rotateWithView: iconRotationAlignment === 'map',
-                                            scale: iconSize / spriteImageData$1.pixelRatio,
-                                            displacement: 'icon-offset' in layout ? getValue(layer, 'layout', 'icon-offset', zoom, f, functionCache, featureState).map(function (v) { return -v * spriteImageData$1.pixelRatio; }) : undefined,
-                                            declutterMode: declutterMode
-                                        });
+                                        var color$1 = iconColor ? [
+                                            iconColor.r * 255,
+                                            iconColor.g * 255,
+                                            iconColor.b * 255,
+                                            iconColor.a
+                                        ] : undefined;
+                                        if (imageElement) {
+                                            iconImg = new Icon({
+                                                color: color$1,
+                                                img: imageElement,
+                                                imgSize: [
+                                                    imageElement.width,
+                                                    imageElement.height
+                                                ],
+                                                rotateWithView: iconRotationAlignment === 'map',
+                                                displacement: 'icon-offset' in layout ? getValue(layer, 'layout', 'icon-offset', zoom, f, functionCache).map(function (v) { return -v; }) : undefined
+                                            });
+                                        } else {
+                                            var spriteImageData$1 = spriteData[icon$1];
+                                            iconImg = new Icon({
+                                                color: color$1,
+                                                img: spriteImage,
+                                                imgSize: spriteImgSize,
+                                                size: [
+                                                    spriteImageData$1.width,
+                                                    spriteImageData$1.height
+                                                ],
+                                                offset: [
+                                                    spriteImageData$1.x,
+                                                    spriteImageData$1.y
+                                                ],
+                                                rotateWithView: iconRotationAlignment === 'map',
+                                                scale: iconSize / spriteImageData$1.pixelRatio,
+                                                displacement: 'icon-offset' in layout ? getValue(layer, 'layout', 'icon-offset', zoom, f, functionCache, featureState).map(function (v) { return -v * spriteImageData$1.pixelRatio; }) : undefined,
+                                                declutterMode: declutterMode
+                                            });
+                                        }
                                         iconImageCache[icon_cache_key$1] = iconImg;
                                     }
                                 }
