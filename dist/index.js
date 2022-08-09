@@ -7201,6 +7201,8 @@ function stylefunction(olLayer, glStyle, sourceOrLayers, resolutions, spriteData
                         vOffset = textHaloWidth + 0.5 * (textLineHeight - 1) * textSize;
                     }
                     text.setTextBaseline(textBaseline);
+                    var textJustify = getValue(layer, 'layout', 'text-justify', zoom, f, functionCache, featureState);
+                    text.setJustify(textJustify === 'auto' ? undefined : textJustify);
                     text.setOffsetX(textOffset[0] * textSize + hOffset + textTranslate[0]);
                     text.setOffsetY(textOffset[1] * textSize + vOffset + textTranslate[1]);
                     textColor.setColor(colorWithOpacity(getValue(layer, 'paint', 'text-color', zoom, f, functionCache, featureState), opacity));
