@@ -1336,6 +1336,16 @@ export function stylefunction(
             vOffset = textHaloWidth + 0.5 * (textLineHeight - 1) * textSize;
           }
           text.setTextBaseline(textBaseline);
+          const textJustify = getValue(
+            layer,
+            'layout',
+            'text-justify',
+            zoom,
+            f,
+            functionCache,
+            featureState
+          );
+          text.setJustify(textJustify);
           text.setOffsetX(
             textOffset[0] * textSize + hOffset + textTranslate[0]
           );
