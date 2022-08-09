@@ -1345,7 +1345,9 @@ export function stylefunction(
             functionCache,
             featureState
           );
-          text.setJustify(textJustify);
+          if (textJustify !== 'auto') {
+            text.setJustify(textJustify);
+          }
           text.setOffsetX(
             textOffset[0] * textSize + hOffset + textTranslate[0]
           );
